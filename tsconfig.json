@@ -1,0 +1,62 @@
+{
+  /*
+   * Base TypeScript configuration.
+   *
+   * This file is what your editor and `npm run typecheck` use. It deliberately
+   * has `noEmit: true`, because Node runs the `.ts` files directly and we only
+   * want TypeScript for its type CHECKER, not for its code generator.
+   * See `tsconfig.build.json` for the optional "emit JavaScript" configuration.
+   */
+  "compilerOptions": {
+    /* ---- Which JavaScript features we can use ---- */
+    // ES2024 is fully supported by Node 24, so we can target it directly.
+    "target": "es2024",
+    "lib": ["es2024"],
+
+    /* ---- How modules are written and resolved ---- */
+    // "nodenext" means "follow Node's real ES module rules": explicit file
+    // extensions in imports, `"type": "module"` respected, top-level await allowed.
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    // Tell TypeScript that Node's own APIs are available (`node:http`, `node:crypto`, ...).
+    "types": ["node"],
+
+    /* ---- Strictness. Turn everything on; it is far easier to start strict. ---- */
+    "strict": true,
+    // Makes `array[0]` and `record['key']` typed as possibly `undefined`.
+    "noUncheckedIndexedAccess": true,
+    // Requires `override` when a subclass redefines a base class method.
+    "noImplicitOverride": true,
+    // Every code path in a function that returns a value must actually return one.
+    "noImplicitReturns": true,
+    // Catches accidental fallthrough between `case` labels.
+    "noFallthroughCasesInSwitch": true,
+    // Rejects unused labels and other small mistakes.
+    "allowUnreachableCode": false,
+
+    /* ---- TypeScript-flavoured module syntax ---- */
+    // Every import/export that is only a type must be written `import type`/`export type`,
+    // because there is no bundler here to work out what to erase for us.
+    "verbatimModuleSyntax": true,
+    // Only allow syntax that can be deleted without generating new code. This is
+    // what makes it safe for Node to strip the types out of these files.
+    "erasableSyntaxOnly": true,
+    // Our source imports its own files as './thing.ts' (Node needs the extension),
+    // and this pair of options makes the compiler accept that and rewrite it to
+    // './thing.js' when we do build JavaScript output.
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    // Guarantees each file can be compiled in isolation, which is how Node loads them.
+    "isolatedModules": true,
+
+    /* ---- Output ---- */
+    // `noEmit` = check the types, write no files. Node runs the .ts source as-is.
+    "noEmit": true,
+    "sourceMap": true,
+
+    /* ---- Housekeeping ---- */
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts"]
+}

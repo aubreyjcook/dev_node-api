@@ -1,0 +1,27 @@
+{
+  /*
+   * Build configuration: turns the TypeScript source into plain JavaScript in `dist/`.
+   *
+   * You do NOT need this to run or develop the project -- `npm run dev` executes the
+   * `.ts` files directly. Building is useful when you want to run the code on a
+   * machine or a Node version that cannot strip types, or when you want to ship the
+   * compiled output without the source.
+   *
+   * `rewriteRelativeImportExtensions` (inherited from the base config) is what turns
+   * our `./router.ts` imports into `./router.js` imports in the emitted files.
+   */
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": false,
+    // Without this, `tsc` reports type errors, exits non-zero, and STILL writes the
+    // JavaScript to `dist/`. That leaves a broken half-build on disk and makes the
+    // failure easy to miss. Refuse to emit anything unless the types are sound.
+    "noEmitOnError": true
+  },
+  // Only the application source is built. Tests are excluded.
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.test.ts"]
+}

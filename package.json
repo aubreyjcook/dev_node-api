@@ -1,0 +1,23 @@
+{
+  "name": "dev-node-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A barebones RESTful API built directly on Node's built-in http module, written in TypeScript, for learning purposes.",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "node --watch --env-file-if-exists=.env src/server.ts",
+    "start": "node --env-file-if-exists=.env dist/server.js",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --test \"tests/**/*.test.ts\"",
+    "test:single-process": "node --test --test-isolation=none \"tests/**/*.test.ts\"",
+    "clean": "node --eval \"require('node:fs').rmSync('dist', { recursive: true, force: true })\""
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0"
+  }
+}
